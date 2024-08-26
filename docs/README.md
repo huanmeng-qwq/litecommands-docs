@@ -5,5 +5,5 @@
 * [指令](/command/)
 * [注册](/register/)
 * [参数](/argument/)
-* [用法生成](/invalidusage/)
 * * [参数解析](/parser/)
+* [用法生成](/invalidusage/)
