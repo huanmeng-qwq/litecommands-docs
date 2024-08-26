@@ -137,4 +137,4 @@ LiteKookFactory.builder(plugin)
 通过`@Key`注解指定该参数的key后，将有限查找已注册对应key的`指令提示/Suggester`
 
 除了通过`argumentSuggestion`方法，也可以使用`#argumentParser(TypeRange, ArgumentKey, ParserChained)`
-等包含ArgumentKey类似的方法，本文仅展示了最编写的方式
+等包含ArgumentKey类似的方法，本文仅展示了最便携的方式
