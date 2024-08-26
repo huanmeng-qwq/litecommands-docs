@@ -34,9 +34,9 @@ public RootCommands {
         
     }
     
-    @Execute(name = "liteTest")
+    @Execute(name = "liteTest print")
     public void example(@OptionalArg("arg") String arg) {
-        //   /liteTest
+        //   /liteTest print
         //   arg = null
     }
 }
