@@ -72,6 +72,8 @@ tasks.compileJava {
 * float/Float
 * short/Short
 * long/Long
+* BigInteger
+* UUID
 * 等常用Java类型
 
 KookBC提供的
