@@ -85,6 +85,7 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
 ##### 方案一 自定义消息风格
 
 ```java
+// 返回的object内容将被传递resultHandler处理
 builder.message(LiteMessages.INVALID_USAGE, (Message<Object, InvalidUsage<?>>) invalidUsage -> {
     InvalidUsage.Cause cause1 = invalidUsage.getCause();
     String reason1;
