@@ -4,7 +4,7 @@
 
 ##### 修改Schematic生成器
 
-本文中的代码生成出的最终样式为: example test <num> # 指令介绍信息
+本文中的代码生成出的最终样式为: example test &lt;num> # 指令介绍信息
 
 <!-- tabs:start -->
 
