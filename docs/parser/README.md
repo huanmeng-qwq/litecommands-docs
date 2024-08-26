@@ -111,7 +111,7 @@ public class UserSuggester implements Suggester<CommandSender, User> {
 
 > 目标:
 >
-> /example test <num>
+> /example test &lt;num>
 >
 > num为int
 >
