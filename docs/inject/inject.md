@@ -10,10 +10,10 @@
 >
 > 自动传递的`bind`声明的内容
 
-#### 添加内容
+#### 添加命令依赖
 
 ```java
-builder.bind(UserService.class, ()-> userService);
+builder.bind(UserService.class, () -> userService);
 ```
 
 还可以用其它重载方法添加:
