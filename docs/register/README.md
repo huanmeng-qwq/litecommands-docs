@@ -8,7 +8,7 @@ LiteKookFactory.builder(plugin)
 
 
 ##### 参数解析器
-解析器包括了 [Suggester](#参数提示)(参数提示,Tab补全)和[Parser](#参数解析)(参数解析)
+解析器(ArgumentResolver)包括了 [Suggester](#参数提示)(参数提示,Tab补全)和[Parser](#参数解析)(参数解析)
 
 ```java
 LiteKookFactory.builder(plugin)

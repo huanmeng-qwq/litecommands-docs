@@ -66,6 +66,7 @@ tasks.compileJava {
 <!-- tabs:end -->
 
 # 类型支持
+LiteCommands内置的
 
 * int/Integer
 * double/Double
@@ -74,7 +75,7 @@ tasks.compileJava {
 * long/Long
 * BigInteger
 * UUID
-* 等常用Java类型
+* 等Java常用类型
 
 KookBC提供的
 
