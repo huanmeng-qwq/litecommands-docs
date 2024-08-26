@@ -13,4 +13,15 @@
 public String execute() {
     return "execute();";    
 }
+
+@Execute(name = "example")
+public String execute() {
+    return "example";    
+}
 ```
+
+#### 参数
+
+| 参数   | 作用                   |
+|------|----------------------|
+| name | 表示子命令的名称<br/>多级用空格分割 |
