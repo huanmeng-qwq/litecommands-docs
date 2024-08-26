@@ -5,10 +5,11 @@
 `ArgumentResolver`已经继承了`Parser`和`Suggester`接口
 
 ##### 注册
+
 [注册](/register/?id=参数解析器)
 
-
 ##### 自定义类型
+
 ```java
 public class User {
     private final String name;
@@ -24,8 +25,11 @@ public class User {
     }
 }
 ```
+
 <!-- tabs:start -->
+
 #### **ArgumentResolver**
+
 ```java
 public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> {
     @Override
@@ -40,7 +44,9 @@ public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> 
     }
 }
 ```
+
 #### **Parser**
+
 ```java
 public class UserParser implements Parser<CommandSender, User> {
     @Override
@@ -58,11 +64,12 @@ public class UserParser implements Parser<CommandSender, User> {
 
 <!-- tabs:end -->
 
-
 ##### 自定义类型的指令补全(Suggester)
 
 <!-- tabs:start -->
+
 #### **ArgumentResolver**
+
 ```java
 public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> {
     @Override
@@ -71,7 +78,7 @@ public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> 
     }
 
     @Override
-    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Player> argument, SuggestionContext context) {
+    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<User> argument, SuggestionContext context) {
         return userManager.getUsers().stream()
                 .map(User::getName)
                 .collect(SuggestionResult.collector());
@@ -81,12 +88,14 @@ public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> 
 
 }
 ```
+
 #### **Suggester**
+
 ```java
 public class UserSuggester implements Suggester<CommandSender, User> {
     // 与ArgumentResolver的一致
     @Override
-    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Player> argument, SuggestionContext context) {
+    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<User> argument, SuggestionContext context) {
         return userManager.getUsers().stream()
                 .map(User::getName)
                 .collect(SuggestionResult.collector());
@@ -97,3 +106,35 @@ public class UserSuggester implements Suggester<CommandSender, User> {
 ```
 
 <!-- tabs:end -->
+
+##### 针对指定的参数指定参数提示内容
+
+> 目标:
+>
+> /example test <num>
+>
+> num为int
+>
+> num默认情况下将会提示0-10的数字提示
+>
+> 我们需要指定num的提示结果为2-5的数字
+
+```java
+
+@Command(name = "example")
+class ExampleCommand {
+    public void test(@Arg("num") @Key("customKey") int i) {
+
+    }
+}
+
+LiteKookFactory.builder(plugin)
+    .argumentSuggestion(int.class, ArgumentKey.of("customKey"),SuggestionResult.of("2","3","4","5"));
+```
+
+`customKey`为自定义的一个key，可以根据具体情况不同而设置
+
+通过`@Key`注解指定该参数的key后，将有限查找已注册对应key的`指令提示/Suggester`
+
+除了通过`argumentSuggestion`方法，也可以使用`#argumentParser(TypeRange, ArgumentKey, ParserChained)`
+等包含ArgumentKey类似的方法，本文仅展示了最编写的方式
