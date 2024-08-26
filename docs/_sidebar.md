@@ -2,7 +2,6 @@
 * * [指令](/command/)
 * * [注册](/register/)
 * * [自动注入](/inject/)
-  * * [@Command](/inject/command)
   * * [@Execute](/inject/execute)
   * * [@Inject](/inject/inject)
   * * [@Context](/inject/context)
