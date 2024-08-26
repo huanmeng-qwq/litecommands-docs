@@ -6,13 +6,13 @@
 
 本文中的代码生成出的最终样式为:
 
-未知指令
-
-example test &lt;num> # 指令介绍信息
-
-example print &#91;num] # 指令介绍信息
-
-example execute &lt;num> &#91;state] # 指令介绍信息
+> 未知指令
+>
+> example test &lt;num> # 指令介绍信息
+>
+> example print &#91;num] # 指令介绍信息
+>
+> example execute &lt;num> &#91;state] # 指令介绍信息
 
 ---
 
