@@ -12,6 +12,7 @@ public void execute(@Arg int number) {
 该注解用来声明方法参数为一个指令参数，如果方法内参数不标注该注解将无法被正确解析注册
 
 ##### 指定参数名
+
 ```java
 
 @Excute
@@ -20,7 +21,10 @@ public void execute(@Arg("num") int number) {
 }
 ```
 
-为`@Arg`注解设置value值即可指定指令结构中该参数的名字
+| 参数    | 作用       |
+|-------|----------|
+| value | 表示该参数的名字 |
+
 默认不设置时将通过反射获取参数的名字
 > 一般情况下编译后的代码，参数名字会被替换成自动生成的
 >
@@ -66,6 +70,7 @@ tasks.compileJava {
 <!-- tabs:end -->
 
 # 类型支持
+
 LiteCommands内置的
 
 * int/Integer
