@@ -14,7 +14,15 @@ public class ExampleCommand {
     // ....
 }
 
+
+
 ```
+
+### 参数
+
+| 参数   | 作用                   |
+|------|----------------------|
+| name | 表示子命令的名称<br/>多级用空格分割 |
 
 ## @RootCommand
 
@@ -22,7 +30,7 @@ public class ExampleCommand {
 >
 > 注册为根命令
 
-###  示例
+### 示例
 
 ```java
 @RootCommand
