@@ -4,7 +4,25 @@
 
 ##### 修改Schematic生成器
 
-本文中的代码生成出的最终样式为: example test &lt;num> # 指令介绍信息
+本文中的代码生成出的最终样式为:
+
+未知指令
+
+example test &lt;num> # 指令介绍信息
+
+example print &#91;num] # 指令介绍信息
+
+example execute &lt;num> &#91;state] # 指令介绍信息
+
+---
+
+###### SchematicFormat
+
+`SchematicFormat`是定义`必选参数`和`可选参数`的前后缀
+
+`SchematicFormat.angleBrackets()` 则对应:
+&lt;必选参数名> &#91;可选参数名]
+
 
 <!-- tabs:start -->
 
@@ -15,7 +33,8 @@
 // 如果不需要的话可以直接builder.schematicGenerator(new DescSchematicGenerator());
 builder.selfProcessor((builder, internal) -> {
     builder.schematicGenerator(
-        new DescSchematicGenerator(SchematicFormat.angleBrackets(),
+       
+        new DescSchematicGenerator(SchematicFormat.angleBrackets(),  
             internal.getValidatorService(),
             internal.getWrapperRegistry())
     );
