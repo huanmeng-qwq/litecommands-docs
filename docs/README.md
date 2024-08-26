@@ -8,6 +8,7 @@
 > 这是一个非官方的教程文档
 
 * [指令](/command/)
+  * [执行步骤概述](/command/steps)
 * [注册](/register/)
 * [自动注入](/inject/)
   * [@Command](/inject/command)

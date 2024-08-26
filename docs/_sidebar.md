@@ -1,5 +1,6 @@
 * [快速开始](/)
 * * [指令](/command/)
+    * [执行步骤概述](/command/steps)
 * * [注册](/register/)
 * * [自动注入](/inject/)
   * * [@Execute](/inject/execute)
