@@ -6,13 +6,15 @@
 
 本文中的代码生成出的最终样式为:
 
+[指令代码](#指令代码)
+
 > 未知指令
 >
 > example test &lt;num> # 指令介绍信息
 >
-> example print &#91;num] # 指令介绍信息
+> example print &#91;num] # 输出num
 >
-> example execute &lt;num> &#91;state] # 指令介绍信息
+> example execute &lt;num> &#91;state] # Execute子命令的简介
 
 ---
 
@@ -200,3 +202,29 @@ Schematic schematic = result.getSchematic();
 
 <!-- tabs:end -->
 
+##### 指令代码
+<!-- tabs:start -->
+#### example test
+```java
+@Description("指令介绍信息")
+@Execute(name = "test")
+public void test() {
+}
+```
+
+#### example print
+```java
+@Description("输出num")
+@Execute(name = "print")
+public void test(@OptionalArg("num") int num) {
+}
+```
+
+#### example print
+```java
+@Description("Execute子命令的简介")
+@Execute(name = "execute")
+public void test(@Arg("num") int num, @OptionalArg("state") String state) {
+}
+```
+<!-- tabs:end -->
