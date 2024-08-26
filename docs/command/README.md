@@ -1,4 +1,4 @@
-# @Command
+## @Command
 
 > 这是一个核心注解
 >
@@ -6,12 +6,39 @@
 >
 > 才会将该方法作为一个命令体处理下一步操作
 
-#### 示例
+### 示例
 
 ```java
 @Command(name = "example")
 public class ExampleCommand {
     // ....
+}
+
+```
+
+## @RootCommand
+
+> 该注解将会把所有包含`@Execute`注解的方法
+>
+> 注册为根命令
+
+###  示例
+
+```java
+@RootCommand
+public RootCommands {
+    @Execute(name = "example")
+    public void example(@Arg("arg") String arg) {
+        //   /example 123
+        //   arg = 123
+        
+    }
+    
+    @Execute(name = "liteTest")
+    public void example(@OptionalArg("arg") String arg) {
+        //   /liteTest
+        //   arg = null
+    }
 }
 
 ```
