@@ -1,5 +1,13 @@
 # 自定义解析
 
+通常在开发中一般都推荐继承`ArgumentResolver`来实现解析和命令补全提示
+
+`ArgumentResolver`已经继承了`Parser`和`Suggester`接口
+
+##### 注册
+[注册](/register/?id=参数解析器)
+
+
 ##### 自定义类型
 ```java
 public class User {
@@ -34,7 +42,7 @@ public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> 
 ```
 #### **Parser**
 ```java
-public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> {
+public class UserParser implements Parser<CommandSender, User> {
     @Override
     public final ParseResult<User> parse(Invocation<CommandSender> invocation, Argument<User> argument, RawInput rawInput) {
         User user = userManager.findUser(rawInput.next());
@@ -73,18 +81,17 @@ public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> 
 
 }
 ```
-#### **Parser**
+#### **Suggester**
 ```java
-public class UserArgumentResolver extends ArgumentResolver<CommandSender, User> {
+public class UserSuggester implements Suggester<CommandSender, User> {
+    // 与ArgumentResolver的一致
     @Override
-    public final ParseResult<User> parse(Invocation<CommandSender> invocation, Argument<User> argument, RawInput rawInput) {
-        User user = userManager.findUser(rawInput.next());
-
-        if (user != null) {
-            return ParseResult.success(user);
-        }
-
-        return ParseResult.failure("用户未找到");
+    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Player> argument, SuggestionContext context) {
+        return userManager.getUsers().stream()
+                .map(User::getName)
+                .collect(SuggestionResult.collector());
+        // 或者
+        // return SuggestionResult.of("User1", "user2");
     }
 }
 ```
