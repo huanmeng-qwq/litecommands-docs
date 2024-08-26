@@ -9,6 +9,10 @@
 
 * [指令](/command/)
 * [注册](/register/)
+* [自动注入](/inject/)
+  * [@Execute](/inject/execute)
+  * [@Inject](/inject/inject)
+  * [@Context](/inject/context)
 * [参数](/argument/)
 * * [参数解析](/parser/)
 * [用法生成](/invalidusage/)
