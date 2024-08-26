@@ -8,7 +8,7 @@
 
 <!-- tabs:start -->
 
-##### Main.java
+#### Main.java
 
 ```java
 // 由于DescSchematicGenerator用到ValidatorService和WrapperRegistry所以这里使用selfProcessor获取internal对象
@@ -22,7 +22,7 @@ builder.selfProcessor((builder, internal) -> {
 });
 ```
 
-##### DescSchematicGenerator.java
+#### DescSchematicGenerator.java
 
 ```java
 public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSender> {
@@ -127,14 +127,14 @@ builder.message(LiteMessages.INVALID_USAGE, (Message<Object, InvalidUsage<?>>) i
 
 <!-- tabs:start -->
 
-##### Main.java
+#### Main.java
 
 ```java
 LiteKookFactory.builder(plugin)
     .invalidUsage(new ExampleInvalidUsageHandler())
 ```
 
-##### ExampleInvalidUsageHandler.java
+#### ExampleInvalidUsageHandler.java
 
 ```java
 public class ExampleInvalidUsageHandler implements InvalidUsageHandler<CommandSender> {
