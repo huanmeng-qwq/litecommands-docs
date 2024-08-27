@@ -30,6 +30,12 @@ public void execute(@Context CommandSender sender) {
 | Sponge              | org.spongepowered.api.command.CommandCause       |
 | Velocity            | com.velocitypowered.api.command.CommandSource    |
 
+初次之外 `LiteCommands`还提供了默认的提供了一下类型
+
+* `Invocation`
+* `PlatformSender`
+* `String[]` 直接返回命令所有参数数组 即`args`
+
 #### 类型判断
 
 如果类型没有注册时
