@@ -73,13 +73,25 @@ tasks.compileJava {
 
 LiteCommands内置的
 
+* String
+* boolean/Boolean
 * int/Integer
 * double/Double
 * float/Float
 * short/Short
 * long/Long
 * BigInteger
+* BigDecimal
 * UUID
+* Duration
+* Period
+* Instant
+* LocalDateTime
+* Set/LinkedHashSet/TreeSet/Stack/Vector
+* LinkedList/ArrayList/Collection
+* Array[]
+* Optional<T>
+* 所有Enum枚举
 * 等Java常用类型
 
 KookBC提供的
