@@ -25,6 +25,11 @@
 `SchematicFormat.angleBrackets()` 则对应:
 &lt;必选参数名> &#91;可选参数名]
 
+`SchematicGenerator`是控制`Schematic`的生成器
+
+`Schematic`代表一个指令的详细用法描述，在`InvalidUsage`和`InvalidUsageHandler`中将会调用到它来输出内容
+
+本文提供的`DescSchematicGenerator`可以作为一个参加，在原有模板上做了修改，具体请参考代码中的注释
 
 <!-- tabs:start -->
 
