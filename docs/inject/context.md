@@ -71,7 +71,7 @@ public ContextResult<LiteTestGuild> provide(Invocation<CommandSender> invocation
         .flatMap(player -> {
             AccountData accountData = accountManager.find(sender.getUniqueId());
             if (accountData != null) {
-                return ContextResult.ok(()-> accountData);
+                return ContextResult.ok(() -> accountData);
             }
             return ContextResult.error("Account not found");
         });
