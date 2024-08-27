@@ -59,6 +59,11 @@ public class UserParser implements Parser<CommandSender, User> {
 
         return ParseResult.failure("用户未找到");
     }
+    
+    @Override
+    public final Range getRange(Argument<TYPE> argument) {
+        return Range.ONE; // 代表该参数仅解析一个元素
+    }
 }
 ```
 
