@@ -3,8 +3,6 @@
 > 将在执行方法时自动传递带有该注解的参数
 >
 > 自动传递的对象存放在`Invocation#context`对象里面
->
-> 该对象仅平台实现的时候指定内容，开发者无法自行修改
 
 #### 示例
 
@@ -37,3 +35,47 @@ public void execute(@Context CommandSender sender) {
 如果类型没有注册时
 
 该注解将判断子父类之间的关系自动处理
+
+#### 添加新的类型
+
+<!-- tabs:start -->
+
+#### Main.java
+
+```java
+builder.context(AccountData.class, new AccountDataContextual<>());
+```
+
+#### AccountDataContextual.java
+
+```java
+public class AccountDataContextual implements ContextChainedProvider<CommandSender, AccountData> {
+    @Override
+    public ContextResult<LiteTestGuild> provide(Invocation<CommandSender> invocation, ContextChainAccessor<CommandSender> accessor) {
+        CommandSender sender = invocation.sender();
+        AccountData accountData = accountManager.find(sender.getName());
+        if (accountData != null) {
+            return ContextResult.ok(()-> accountData)
+        }
+        return ContextResult.error("Account not found");
+    }
+}
+```
+
+##### accessor的用法
+
+```java
+@Override
+public ContextResult<LiteTestGuild> provide(Invocation<CommandSender> invocation, ContextChainAccessor<CommandSender> accessor) {
+    return accessor.provideContext(Player.class, invocation) // 获取其它类型context的内容，这里获取Player未例
+        .flatMap(player -> {
+            AccountData accountData = accountManager.find(sender.getUniqueId());
+            if (accountData != null) {
+                return ContextResult.ok(()-> accountData);
+            }
+            return ContextResult.error("Account not found");
+        });
+}
+```
+
+<!-- tabs:end -->
