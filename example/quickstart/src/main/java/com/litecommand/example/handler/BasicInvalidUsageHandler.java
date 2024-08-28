@@ -6,8 +6,6 @@ import dev.rollczi.litecommands.invalidusage.InvalidUsageHandler;
 import dev.rollczi.litecommands.invocation.Invocation;
 import dev.rollczi.litecommands.schematic.Schematic;
 import snw.jkook.command.CommandSender;
-import snw.jkook.message.component.card.MultipleCardComponent;
-import snw.jkook.message.component.card.element.MarkdownElement;
 
 public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSender> {
     @Override

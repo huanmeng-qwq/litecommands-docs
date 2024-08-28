@@ -18,10 +18,10 @@ public class AccountContextProvider implements ContextProvider<CommandSender, Ac
 
     @Override
     public ContextResult<Account> provide(Invocation<CommandSender> invocation) {
-        //判断sender是否为平台的User
+        // 判断sender是否为平台的User
         if (invocation.sender() instanceof User) {
             User user = (User) invocation.sender();
-            //进行正常的‘账号’查询
+            // 进行正常的‘账号’查询
             Account account = accountMapper.getAccountById(Integer.parseInt(user.getId()));
             if (account == null) {
                 return ContextResult.error("用户未找到");
