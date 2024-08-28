@@ -36,14 +36,10 @@ public class ExampleCommand {
   @Execute(name = "set mode" )
   @Description("set user mode")
   public void SetMode(
-          @Context User user,
-          @Arg("mode")@Key("mode") String mode
   ){}
   @Execute(name = "set server" )
   @Description("set user server")
   public void SetServer(
-          @Context User user,
-          @Arg("server") Server server
   ){}
 
   @Execute(name = "help")
@@ -96,7 +92,7 @@ public void SetServer(
         @Arg("server") @Key("server") Server server
 ){}
 ```
-为server标注一个ArgumentKey，用来注册对应的handler。然后我们回到命令注册那里
+为server标注一个ArgumentKey(默认使用Arg注解的名字,如果相同则不需要使用@Key注解)，用来注册对应的handler。然后我们回到命令注册那里
 
 <!-- tabs:start -->
 
