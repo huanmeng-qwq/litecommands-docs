@@ -9,6 +9,7 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;import dev.rollczi.litecommands.annotations.description.Description;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.inject.Inject;
+import dev.rollczi.litecommands.annotations.shortcut.Shortcut;
 import snw.jkook.entity.User;import snw.kookbc.impl.command.litecommands.annotations.prefix.Prefix;
 
 @Command(name = "example",aliases = {"exp","exp2"})
@@ -40,5 +41,6 @@ public class ExampleCommand {
 
     @Execute(name = "help")
     @Description("get help")
+    @Shortcut("help me") //对于命令的‘快捷键’ 支持使用空格进行子命令划分。此时命令的快捷命令为/help me。
     public void Help(){}
 }
