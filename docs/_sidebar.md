@@ -1,4 +1,5 @@
-* [快速开始](/)
+* [首页](/)
+* * [快速开始](/quickstart/)
 * * [指令](/command/)
     * [执行步骤概述](/command/steps)
 * * [注册](/register/)

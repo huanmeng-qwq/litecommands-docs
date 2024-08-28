@@ -5,7 +5,7 @@
 ### 编写本教程的目的
 我认为LiteCommands缺乏一份更细化的文档，所以该文档将包含一些官方文档没有的内容。
 
-> 这是一个非官方的教程文档
+> 这是一个非官方的教程文档 [官方文档链接](https://litedevelopers.rollczi.dev/introdution.html)
 
 * [指令](/command/)
   * [执行步骤概述](/command/steps)
