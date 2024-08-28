@@ -50,3 +50,22 @@ public RootCommands {
 }
 
 ```
+
+## @Shortcut
+
+> 该注解可以用在`@Execute`注解的方法当中，用于给原本的命令起一个“短别名”
+
+
+### 示例
+
+```java
+@Command(name = "example")
+public class ExampleCommand {
+    
+    @Execute(name = "help")
+    @Shortcut("help me")
+    public void Help(){}
+}
+```
+
+此处的命令既可以是 `/example help` 也可以是 `/help me`
