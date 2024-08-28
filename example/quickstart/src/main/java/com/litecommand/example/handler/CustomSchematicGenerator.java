@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CustomSchematicGenerator implements SchematicGenerator<CommandSender> {
 
-    //简单获取命令的DESCRIPTION作为schema
+    // 简单获取命令的DESCRIPTION作为schema
     @Override
     public Schematic generate(SchematicInput<CommandSender> schematicInput) {
         List<String> desc = schematicInput.getLastRoute().meta().get(Meta.DESCRIPTION);
