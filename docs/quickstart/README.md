@@ -245,7 +245,7 @@ LiteKookFactory
         .commands(ExampleCommand .class)
         .argument(String .class, ArgumentKey.of("mode"), new ModeResolver())
         .invalidUsage(new BasicInvalidUsageHandler());
-        //more registry
+        // more registry
 ```
 
 #### 设置命令执行失败的提示

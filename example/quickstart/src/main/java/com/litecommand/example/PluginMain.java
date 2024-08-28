@@ -15,8 +15,8 @@ public class PluginMain extends BasePlugin {
     public void onEnable() {
         LiteKookFactory
                 .builder(this)
-                .bind(AccountMapper.class, AccountMapper::new)//给需要AccountMapper的命令注入实例
-                .context(Account.class, new AccountContextProvider(new AccountMapper()))//注册Account的上下文提供器
+                .bind(AccountMapper.class, AccountMapper::new)// 给需要AccountMapper的命令注入实例
+                .context(Account.class, new AccountContextProvider(new AccountMapper()))// 注册Account的上下文提供器
                 .commands(ExampleCommand.class)
                 .argument(String.class, ArgumentKey.of("mode"), new ModeResolver())
                 .invalidUsage(new BasicInvalidUsageHandler())

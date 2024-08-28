@@ -45,7 +45,7 @@ public class ExampleCommand {
 
     @Execute(name = "help")
     @Description("get help")
-    @Shortcut("help me") //对于命令的‘快捷键’ 支持使用空格进行子命令划分。此时命令的快捷命令为/help me。
+    @Shortcut("help me") // 对于命令的‘快捷键’ 支持使用空格进行子命令划分。此时命令的快捷命令为/help me。
     public void Help() {
     }
 }

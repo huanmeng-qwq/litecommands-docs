@@ -50,10 +50,10 @@ public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSend
         StringBuilder example = new StringBuilder();
         example.append("错误原因:").append(reason).append("\n");
         schematic.all().forEach((it) -> {
-            //添加每一条指令的概述
+            // 添加每一条指令的概述
             example.append(it).append("\n");
         });
-        example.deleteCharAt(example.length() - 1);//删除最后一个换行符
+        example.deleteCharAt(example.length() - 1);// 删除最后一个换行符
         chain.resolve(invocation, example);// 执行result的结果处理 例如sender.sendMessage(reason) 或者 message.reply(reason)
     }
 }

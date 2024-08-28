@@ -71,7 +71,7 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
                 .map(argument -> String.format(generateArgumentFormat(input, argument), generateArgumentName(input, argument)))
                 .collect(Collectors.joining(" "));
         StringBuilder sb = new StringBuilder(string);
-        List<String> desc = executor.meta().get(Meta.DESCRIPTION);//获取该指令执行器的介绍信息
+        List<String> desc = executor.meta().get(Meta.DESCRIPTION);// 获取该指令执行器的介绍信息
         // 合并描述
         if (!desc.isEmpty()) {
             sb.append(" # ");

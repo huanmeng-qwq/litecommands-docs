@@ -55,11 +55,11 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
     public DescSchematicGenerator(SchematicFormat format, ValidatorService<CommandSender> validatorService, WrapperRegistry wrapperRegistry) {
         super(format, validatorService, wrapperRegistry);
     }
-    //这里返回Schematic的原始内容。
+    // 这里返回Schematic的原始内容。
     @Override
     protected Stream<String> generateRaw(SchematicInput<CommandSender> schematicInput) {
         CommandExecutor<CommandSender> executor = schematicInput.getExecutor();
-        //此处获得命令的route内容，例如/example set mode,则为 set mode
+        // 此处获得命令的route内容，例如/example set mode,则为 set mode
         String base = schematicInput.collectRoutes().stream()
             .skip(1)// 这里去除掉第一个元素 代表去除掉指令一级名称，下面用label替换
             .map(CommandRoute::getName)
@@ -70,9 +70,9 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
         } else {
             base = schematicInput.getInvocation().label() + " " + base;
         }
-        //这里获取命令类下的所有子命令schema
+        // 这里获取命令类下的所有子命令schema
         Stream<String> routeScheme = generateRoute(schematicInput, schematicInput.getLastRoute(), base);
-        //如果有executor则和上面的结果合并
+        // 如果有executor则和上面的结果合并
         if (executor != null) {
             Stream<String> executorScheme = Stream.of(base + generateExecutor(schematicInput, executor));
             return Stream.concat(routeScheme, executorScheme);
@@ -81,10 +81,10 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
     }
     @Override
     protected Stream<String> generateRoute(SchematicInput<CommandSender> input, CommandRoute<CommandSender> route, String base) {
-        //为每个子router生成RouterSchema(递归)
+        // 为每个子router生成RouterSchema(递归)
         Stream<String> children = route.getChildren().stream()
             .flatMap(subRoute -> generateRoute(input, subRoute, base + subRoute.getName() + " "));
-        //为每个Route下的executors生成schema
+        // 为每个Route下的executors生成schema
         Stream<String> executors = route.getExecutors().stream()
             .filter(executor -> isVisible(input, executor))
             .map(executor -> {
@@ -94,10 +94,10 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
                 }
                 return prefix + generateExecutor(input, executor);
             });
-        //合并schema
+        // 合并schema
         return Stream.concat(executors, children);
     }
-    //为具体的executor生成schema
+    // 为具体的executor生成schema
     @Override
     protected String generateExecutor(SchematicInput<CommandSender> input, CommandExecutor<CommandSender> executor) {
         String string = executor.getArguments().stream()
