@@ -14,15 +14,15 @@ import java.util.Arrays;
 public class ServerResolver extends ArgumentResolver<CommandSender, Server> {
     @Override
     protected ParseResult<Server> parse(Invocation<CommandSender> invocation, Argument<Server> argument, String s) {
-        if(Arrays.asList("server1","server2").contains(s)){
+        if (Arrays.asList("server1", "server2").contains(s)) {
             return ParseResult.success(Server.valueOf(s));
-        }else{
+        } else {
             return ParseResult.failure("错误的服务器类型");
         }
     }
 
     @Override
     public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Server> argument, SuggestionContext context) {
-        return SuggestionResult.of("server1","server2");
+        return SuggestionResult.of("server1", "server2");
     }
 }
