@@ -1,11 +1,14 @@
 package com.litecommand.example.command;
 
+import com.litecommand.example.Account;
+import com.litecommand.example.AccountMapper;
 import com.litecommand.example.Server;
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.argument.Key;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;import dev.rollczi.litecommands.annotations.description.Description;
 import dev.rollczi.litecommands.annotations.execute.Execute;
+import dev.rollczi.litecommands.annotations.inject.Inject;
 import snw.jkook.entity.User;import snw.kookbc.impl.command.litecommands.annotations.prefix.Prefix;
 
 @Command(name = "example",aliases = {"exp","exp2"})
@@ -13,17 +16,29 @@ import snw.jkook.entity.User;import snw.kookbc.impl.command.litecommands.annotat
 @Description(value = {"a simple command example","second description"})
 public class ExampleCommand {
 
+    private final AccountMapper mapper;
+
+    @Inject
+    public ExampleCommand(AccountMapper mapper){
+        this.mapper = mapper;
+    }
+
+
     @Execute(name = "set mode" )
+    @Description("set user mode")
     public void SetMode(
             @Context User user,
+            @Context Account account,
             @Arg("mode")@Key("mode") String mode
     ){}
     @Execute(name = "set server" )
+    @Description("set user server")
     public void SetServer(
             @Context User user,
-            @Arg("server") Server server
+            @Arg("server") @Key("server") Server server
     ){}
 
     @Execute(name = "help")
+    @Description("get help")
     public void Help(){}
 }

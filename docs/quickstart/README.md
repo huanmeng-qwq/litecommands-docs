@@ -2,7 +2,7 @@
 
 > 本章通过编写一个快速的KookBC插件demo样例来快速展示Litecommand使用
 
-[快速开始项目代码](https://github.com/DAYGoodTime/litecommands-docs/tree/main/exmaple/quickstart)
+[快速开始项目代码](https://github.com/DAYGoodTime/litecommands-docs/tree/main/example/quickstart)
 
 #### 引入KooKBC依赖 (使用其litecommand的实现)
 ```xml
@@ -33,13 +33,22 @@
 @Description(value = {"a simple command example","second description"})
 public class ExampleCommand {
 
-    @Execute(name = "set mode",aliases = {"sm"})
-    public void SetMode(){}
-    @Execute(name = "set name",aliases = {"sn"})
-    public void SetName(){}
+  @Execute(name = "set mode" )
+  @Description("set user mode")
+  public void SetMode(
+          @Context User user,
+          @Arg("mode")@Key("mode") String mode
+  ){}
+  @Execute(name = "set server" )
+  @Description("set user server")
+  public void SetServer(
+          @Context User user,
+          @Arg("server") Server server
+  ){}
 
-    @Execute(name = "help")
-    public void Help(){}
+  @Execute(name = "help")
+  @Description("get help")
+  public void Help(){}
 }
 ```
 - `@Command`注解用来表示一个根命令类 此处为注册一个 example命令。同时还可以设置多个别名，此处为exp 或者 exp2
@@ -74,18 +83,20 @@ public void SetMode(
 `@Context`的作用是为了给命令执行的添加上下文。在此处例子当中，插件会尝试添加JKook User对象。\
 `@Arg` 为命令添加必选参数,则执行该命令需要输入 /example set mode 模式1 `@Arg("mode")`当中的mode是为了给schema生成提供参考，如果不添加，则使用默认名字。
 
-#### 为命令参数添加错误错误提示
-如果什么都不做的话，litecommand有其默认的错误文本。可惜，这对于面向非开发人员的用户交互来说，这个文本多少有点晦涩，例如`Invalid usage of command! (INVALID_USAGE)` \
-于是我们需要增强用户的交互体验，回到命令类当中。
+#### 自义定解析
+
+很多时候，你需要将纯文本参数转换成枚举类或者复杂数据类型，这个时候你就需要设置自定义解析器。\
+回到命令类当中，在需要添加自义定解析的参数当中添加@Key注解来制定特定参数的解析器(如果不添加则对所有拥有该参数的命令生效)
 `ExampleCommand.java`
 ```java
-@Execute(name = "set mode" )
-public void SetMode(
+@Execute(name = "set server" )
+@Description("set user server")
+public void SetServer(
         @Context User user,
-        @Arg("mode") @Key("mode") String mode
+        @Arg("server") @Key("server") Server server
 ){}
 ```
-为mode标注一个ArgumentKey，用来注册对应的handler。然后我们回到命令注册那里
+为server标注一个ArgumentKey，用来注册对应的handler。然后我们回到命令注册那里
 
 <!-- tabs:start -->
 
@@ -95,11 +106,11 @@ public void SetMode(
 LiteKookFactory
         .builder(this)
         .commands(new ExampleCommand())
-        .argument(String.class, ArgumentKey.of("mode"),new ModeResolver());
+        .argument(Server.class, ArgumentKey.of("server"),new ServerResolver());
 ```
 如果不使用ArgumentKey.of("mode")标记特定参数解析。则对所有命令生效
 
-#### **ModeResolver.java**
+#### **ServerResolver.java**
 
 ```java
 //针对Mode参数的解释器和建议提示。
@@ -108,21 +119,22 @@ LiteKookFactory
 //invocation表示命令的上下文
 //argument 表示参数对象
 //s 代表着原始输入(已分割好)
-public class ModeResolver extends ArgumentResolver<CommandSender,String> {
-    @Override
-    protected ParseResult<String> parse(Invocation<CommandSender> invocation, Argument<String> argument, String s) {
-        if(Arrays.asList("模式1","模式2").contains(s)){
-            return ParseResult.success(s);
-        }else{
-            return ParseResult.failure("请输入正确的模式");
-        }
+public class ServerResolver extends ArgumentResolver<CommandSender, Server> {
+  @Override
+  protected ParseResult<Server> parse(Invocation<CommandSender> invocation, Argument<Server> argument, String s) {
+    if(Arrays.asList("server1","server2").contains(s)){
+      return ParseResult.success(Server.valueOf(s));
+    }else{
+      return ParseResult.failure("错误的服务器类型");
     }
+  }
 
-    @Override
-    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<String> argument, SuggestionContext context) {
-        return SuggestionResult.of("模式1","模式2");
-    }
+  @Override
+  public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Server> argument, SuggestionContext context) {
+    return SuggestionResult.of("server1","server2");
+  }
 }
+
 ```
 <!-- tabs:end -->
 
@@ -131,12 +143,91 @@ public class ModeResolver extends ArgumentResolver<CommandSender,String> {
 
 > 具体的说明可以查看 [命令解析](/parser/)
 
-不过这依旧没法解决 用户输入/example set mode的时候，提示缺少具体模式参数的提示。此时我们需要编写一份完整的错误解析器。
+#### 命令上下文的注入
+
+很多时候，插件会有自己的`用户系统`，与平台用户对其进行绑定，这个时候许多命令操作需要从后台查询权限、账号等。那么就需要在命令里插入大量的与命令操作无关的代码。\
+那么上下文的注入能够显著减少这方面的冗余。\
+现在我们回到命令类当中。\
+`ExampleCommand.java`
+```java
+public class ExampleCommand {
+
+    private final AccountMapper mapper;
+    
+    //如果你没有任何需要的依赖,自然也不需要使用@Inject注入了
+    @Inject
+    public ExampleCommand(AccountMapper mapper) {
+        this.mapper = mapper;
+    }
+    
+    @Execute(name = "set mode")
+    @Description("set user mode")
+    public void SetMode(
+            @Context User user,
+            @Context Account account,
+            @Arg("mode") @Key("mode") String mode
+    ) {
+    }
+    //others ....
+}
+```
+
+给Account编写一个上下文提供器。
+
+`AccountContextProvider.java`
+
+```java
+public class AccountContextProvider implements ContextProvider<CommandSender, Account> {
+  private final AccountMapper accountMapper;
+  
+  public AccountContextProvider(AccountMapper accountMapper) {
+      this.accountMapper = accountMapper;
+  }
+  
+  @Override
+  public ContextResult<Account> provide(Invocation<CommandSender> invocation) {
+      //判断sender是否为平台的User
+      if (invocation.sender() instanceof User) {
+          User user = (User) invocation.sender();
+          //进行正常的‘账号’查询
+          Account account = accountMapper.getAccountById(Integer.parseInt(user.getId()));
+          if (account == null) {
+              return ContextResult.error("用户未找到");
+          } else {
+              return ContextResult.ok(() -> account);
+          }
+      } else {
+          return ContextResult.error("请通过用户交互进行命令");
+      }
+  }
+}
+```
+
+注册依赖注入和上下文提供器。
+
+`PluginMain.java`
+```java
+LiteKookFactory
+        .builder(this)
+        .bind(AccountMapper.class, AccountMapper::new)//给需要AccountMapper的命令注入实例
+        .context(Account.class,new AccountContextProvider(new AccountMapper()))//注册Account的上下文提供器
+        .commands(ExampleCommand.class)
+        .argument(String.class, ArgumentKey.of("mode"), new ModeResolver())
+        .invalidUsage(new BasicInvalidUsageHandler());
+        //more registry
+```
+
+#### 设置命令执行失败的提示
+
+用户输入不符合命令要求的时候会返回一个默认错误文本。可惜，这对于面向非开发人员的用户交互来说，这个文本多少有点晦涩，例如`Invalid usage of command! (INVALID_USAGE)` \
+于是我们需要增强用户的交互体验，我们需要设置命令的错误返回。
 
 <!-- tabs:start -->
 
 #### **BasicInvalidUsageHandler.java**
-
+这里通过输出命令的Schematic作为命令交互提示 \
+Schematic 代表着该执行器的schema。
+你可以通过自定义SchematicGenerator来定制schema的内容。
 ```java
 public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSender> {
     @Override
@@ -189,11 +280,12 @@ public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSend
     }
 }
 ```
-Schematic 代表着该执行器的schema。
-你可以通过自定义SchematicGenerator来定制schema的内容。
+
 
 #### **DescSchematicGenerator.java**
-
+该生成器可以生成命令下的所有子命令的样例。用户输入/example set 会输出 \
+- /example set mode <mode> # set user mode
+- /example set server <server> # set user server
 ```java
 public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSender> {
 
@@ -265,7 +357,7 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
 ```
 
 #### **PluginMain.java**
-
+在命令注册当中添加`错误的使用命令`的处理类和SchematicGenerator
 ```java
 LiteKookFactory
         .builder(this)
@@ -284,7 +376,7 @@ LiteKookFactory
         
 ```
 #### **CustomSchematicGenerator.java**
-
+当然，你也可以自己写一个非常简单的SchematicGenerator,或者不写。则此时Schematic会使用自己默认的生成器
 ```java
 public class CustomSchematicGenerator implements SchematicGenerator<CommandSender> {
 
@@ -300,3 +392,6 @@ public class CustomSchematicGenerator implements SchematicGenerator<CommandSende
 <!-- tabs:end -->
 
 > 关于InvalidUse 详细说明可以看 [InvalidUse](/invalidusage/)
+
+
+
