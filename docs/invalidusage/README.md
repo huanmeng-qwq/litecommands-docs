@@ -43,7 +43,7 @@ builder.selfProcessor((builder, internal) -> {
        
         new DescSchematicGenerator(SchematicFormat.angleBrackets(),  
             internal.getValidatorService(),
-            internal.getWrapperRegistry())
+            internal.getParserRegistry())
     );
 });
 ```
@@ -52,8 +52,8 @@ builder.selfProcessor((builder, internal) -> {
 
 ```java
 public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSender> {
-    public DescSchematicGenerator(SchematicFormat format, ValidatorService<CommandSender> validatorService, WrapperRegistry wrapperRegistry) {
-        super(format, validatorService, wrapperRegistry);
+    public DescSchematicGenerator(SchematicFormat format, ValidatorService<CommandSender> validatorService, ParserRegistry<CommandSender> parserRegistry) {
+        super(format, validatorService, parserRegistry);
     }
     // 这里返回Schematic的原始内容。
     @Override
