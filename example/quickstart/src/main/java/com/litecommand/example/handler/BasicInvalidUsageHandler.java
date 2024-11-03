@@ -54,6 +54,6 @@ public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSend
             example.append(it).append("\n");
         });
         example.deleteCharAt(example.length() - 1);// 删除最后一个换行符
-        chain.resolve(invocation, example);// 执行result的结果处理 例如sender.sendMessage(reason) 或者 message.reply(reason)
+        chain.resolve(invocation, example.toString());// 执行result的结果处理 例如sender.sendMessage(reason) 或者 message.reply(reason)
     }
 }
