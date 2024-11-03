@@ -111,6 +111,14 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
         }
         return string + sb;// 返回例如: example test <num> # 该指令的简介信息
     }
+    
+    @Override
+    protected String generateArgumentFormat(SchematicInput<CommandSender> input, Argument<?> argument) {
+        if (argument.getProfile(LiteralProfile.NAMESPACE).isPresent()) {
+            return argument.getName();
+        }
+        return this.isOptional(input, argument) ? this.format.optionalArgumentFormat() : this.format.argumentFormat();
+    }
 }
 ```
 

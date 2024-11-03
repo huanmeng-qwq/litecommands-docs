@@ -1,8 +1,10 @@
 package com.litecommand.example.handler;
 
+import dev.rollczi.litecommands.argument.Argument;
 import dev.rollczi.litecommands.argument.parser.ParserRegistry;
 import dev.rollczi.litecommands.command.CommandRoute;
 import dev.rollczi.litecommands.command.executor.CommandExecutor;
+import dev.rollczi.litecommands.literal.LiteralProfile;
 import dev.rollczi.litecommands.meta.Meta;
 import dev.rollczi.litecommands.schematic.SchematicFormat;
 import dev.rollczi.litecommands.schematic.SchematicInput;
@@ -26,10 +28,10 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
         CommandExecutor<CommandSender> executor = schematicInput.getExecutor();
         // 此处获得命令的route内容，例如/example set mode,则为 set mode
         String base = schematicInput.collectRoutes().stream()
-                              .skip(1)// 这里去除掉第一个元素 代表去除掉指令一级名称，下面用label替换
-                              .map(CommandRoute::getName)
-                              .collect(Collectors.joining(" "))
-                      + " ";
+                .skip(1)// 这里去除掉第一个元素 代表去除掉指令一级名称，下面用label替换
+                .map(CommandRoute::getName)
+                .collect(Collectors.joining(" "))
+                + " ";
         if (base.trim().isEmpty()) {
             base = schematicInput.getInvocation().label() + " ";
         } else {
@@ -78,5 +80,13 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
             sb.append(String.join(", ", desc));
         }
         return sb.toString();// 返回例如: example set mode <mode> # 该指令的简介信息
+    }
+
+    @Override
+    protected String generateArgumentFormat(SchematicInput<CommandSender> input, Argument<?> argument) {
+        if (argument.getProfile(LiteralProfile.NAMESPACE).isPresent()) {
+            return argument.getName();
+        }
+        return this.isOptional(input, argument) ? this.format.optionalArgumentFormat() : this.format.argumentFormat();
     }
 }
