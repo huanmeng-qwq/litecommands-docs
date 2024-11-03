@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 
 public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSender> {
 
-    public DescSchematicGenerator(ValidatorService<CommandSender> validatorService, WrapperRegistry wrapperRegistry) {
-        super(SchematicFormat.angleBrackets(), validatorService, wrapperRegistry);
+    public DescSchematicGenerator(ValidatorService<CommandSender> validatorService, ParserRegistry<CommandSender> parserRegistry) {
+        super(SchematicFormat.angleBrackets(), validatorService, parserRegistry);
     }
 
     // 这里返回Schematic的原始内容。通过去重平铺后,new Schematic(schematics)来创建Schematic

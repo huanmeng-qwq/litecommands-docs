@@ -21,7 +21,7 @@ public class PluginMain extends BasePlugin {
                 .argument(String.class, ArgumentKey.of("mode"), new ModeResolver())
                 .invalidUsage(new BasicInvalidUsageHandler())
                 .selfProcessor((builder, internal) ->
-                        builder.schematicGenerator(new DescSchematicGenerator(internal.getValidatorService(), internal.getWrapperRegistry())
+                        builder.schematicGenerator(new DescSchematicGenerator(internal.getValidatorService(), internal.getParserRegistry())
                         ));
 //                .schematicGenerator(new CustomSchematicGenerator());
 
