@@ -325,23 +325,20 @@ public class BasicInvalidUsageHandler implements InvalidUsageHandler<CommandSend
 ```java
 public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSender> {
 
-    public DescSchematicGenerator(ValidatorService<CommandSender> validatorService, WrapperRegistry wrapperRegistry) {
-        // SchematicFormat用于定义参数的符号。angleBrackets代表使用尖括号表示必要参数,方括号表示可选参数 <必须> [可选]
-        // validatorService和wrapperRegistry用于获得命令的额外信息。
-        // SimpleSchematicGenerator是kookbc当中的一个简单schema生成实现。如果需要，你可以只引用SchematicGenerator。
-        super(SchematicFormat.angleBrackets(), validatorService, wrapperRegistry);
+    public DescSchematicGenerator(ValidatorService<CommandSender> validatorService, ParserRegistry<CommandSender> parserRegistry) {
+        super(SchematicFormat.angleBrackets(), validatorService, parserRegistry);
     }
 
-    //  这里返回Schematic的原始内容。通过去重平铺后,new Schematic(schematics)来创建Schematic
+    // 这里返回Schematic的原始内容。通过去重平铺后,new Schematic(schematics)来创建Schematic
     @Override
     protected Stream<String> generateRaw(SchematicInput<CommandSender> schematicInput) {
         CommandExecutor<CommandSender> executor = schematicInput.getExecutor();
         // 此处获得命令的route内容，例如/example set mode,则为 set mode
         String base = schematicInput.collectRoutes().stream()
-                              .skip(1)// 这里去除掉第一个元素 代表去除掉指令一级名称，下面用label替换
-                              .map(CommandRoute::getName)
-                              .collect(Collectors.joining(" "))
-                      + " ";
+                .skip(1)// 这里去除掉第一个元素 代表去除掉指令一级名称，下面用label替换
+                .map(CommandRoute::getName)
+                .collect(Collectors.joining(" "))
+                + " ";
         if (base.trim().isEmpty()) {
             base = schematicInput.getInvocation().label() + " ";
         } else {
@@ -391,6 +388,14 @@ public class DescSchematicGenerator extends SimpleSchematicGenerator<CommandSend
         }
         return sb.toString();// 返回例如: example set mode <mode> # 该指令的简介信息
     }
+
+    @Override
+    protected String generateArgumentFormat(SchematicInput<CommandSender> input, Argument<?> argument) {
+        if (argument.getProfile(LiteralProfile.NAMESPACE).isPresent()) {
+            return argument.getName();
+        }
+        return this.isOptional(input, argument) ? this.format.optionalArgumentFormat() : this.format.argumentFormat();
+    }
 }
 ```
 
@@ -404,7 +409,7 @@ LiteKookFactory
         .commands(new ExampleCommand())
         .argument(String .class, ArgumentKey.of("mode"),new ModeResolver())
         .invalidUsage(new BasicInvalidUsageHandler())
-        .selfProcessor((builder, internal) ->
+        .self((builder, internal) ->
         builder.schematicGenerator(new DescSchematicGenerator(
                 internal.getValidatorService(),
                  internal.getWrapperRegistry())
