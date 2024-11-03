@@ -1,5 +1,6 @@
 package com.litecommand.example.handler;
 
+import dev.rollczi.litecommands.argument.parser.ParserRegistry;
 import dev.rollczi.litecommands.command.CommandRoute;
 import dev.rollczi.litecommands.command.executor.CommandExecutor;
 import dev.rollczi.litecommands.meta.Meta;
@@ -7,7 +8,6 @@ import dev.rollczi.litecommands.schematic.SchematicFormat;
 import dev.rollczi.litecommands.schematic.SchematicInput;
 import dev.rollczi.litecommands.schematic.SimpleSchematicGenerator;
 import dev.rollczi.litecommands.validator.ValidatorService;
-import dev.rollczi.litecommands.wrapper.WrapperRegistry;
 import snw.jkook.command.CommandSender;
 
 import java.util.List;
