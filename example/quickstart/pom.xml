@@ -37,7 +37,13 @@
         <dependency>
             <groupId>dev.rollczi</groupId>
             <artifactId>litecommands-core</artifactId>
-            <version>3.9.0</version>
+            <version>3.9.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.rollczi</groupId>
+            <artifactId>litecommands-programmatic</artifactId>
+            <version>3.9.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

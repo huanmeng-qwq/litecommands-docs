@@ -1,0 +1,5 @@
+main: com.litecommand.example.PluginMain
+name: LiteCommand-Doc-Example
+version: 1.0
+authors: [ huanmeng-qwq, DAYGoodTime ]
+api-version: 0.54.0
