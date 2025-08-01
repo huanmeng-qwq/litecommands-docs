@@ -3,9 +3,9 @@
 本文档基于[LiteCommands](https://github.com/Rollczi/LiteCommands)内容编写
 
 ### 编写本教程的目的
-我认为LiteCommands缺乏一份更细化的文档，所以该文档将包含一些官方文档没有的内容。
+~我认为LiteCommands缺乏一份更细化的文档，所以该文档将包含一些官方文档没有的内容。~
 
-> 这是一个非官方的教程文档 [官方文档链接](https://litedevelopers.rollczi.dev/introdution.html)
+建议优先看官方的[教程文档](https://docs.rollczi.dev/documentation/litecommands/what-is-litecommands.html)
 
 * [指令](/command/)
   * [执行步骤概述](/command/steps)
